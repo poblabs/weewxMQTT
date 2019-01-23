@@ -5,7 +5,7 @@
 Forked from [morrowwm/weewxMQTT](https://github.com/morrowwm/weewxMQTT)
 
 <h2>Description</h2>
-<p>An extension of weewx to add a driver which gets data via an MQTT subscription. Also will shortly add the software from the other side of the MQTT broker. Main part of that is an RF24Mesh process.
+<p>An extension of weewx to add a driver which gets data via an MQTT subscription.
 </p>
 
 **This driver is made to work as a receiver of data published from the [weewx-mqtt](https://github.com/weewx/weewx/wiki/mqtt) extension only.**
