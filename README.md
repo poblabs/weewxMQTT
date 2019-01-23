@@ -1,45 +1,48 @@
 <h1>
-  <a href='http://www.weewx.com'>WeeWX</a>
+  wxMesh Driver
 </h1>
-<p><i>Open source software for your weather station</i></p>
 
 <h2>Description</h2>
 <p>An extension of weewx to add a driver which gets data via an MQTT subscription. Also will shortly add the software from the other side of the MQTT broker. Main part of that is an RF24Mesh process.
 </p>
 
+**This driver is made to work as a receiver of data published from the [weewx-mqtt](https://github.com/weewx/weewx/wiki/mqtt) extension only.**
+
+* Updated to be able to connect to SSL/TLS Brokers too
+
+This is because weewx-mqtt publishes data with `observation_unitLabel`. So this driver is looking for that, trimming the `_unitLabel` off the key name, then sends the key and value to the loop untouched. 
+
+Because of this, this driver makes a great candidate to get a lab system going that has mirrored “production” data. 
+
+* Production weewx will publish data to MQTT using the `weewx-mqtt` extension. 
+* The lab system will use this driver to subscribe to that data and process it as LOOP data.
+
 <p>Works well with the <a href='https://mosquitto.org/'>Mosquitto</a> MQTT message broker.</p>
-<h2>Features</h2>
-<ul>
-  <li>If a message provides 0 as the timestamp or does not provide a timestamp, the driver uses the time on the weewx host.</li>
-  <li>Consolidates asynchronous readings from more than one device into one stream of periodic weewx records.</li>
-  <li>Queues fast arriving publications and processes them into weewx packets quickly, then sleeps.</li>
-</ul>
 
-<h2>Downloads</h2>
-
-<p>
-For current and previous releases:
-</p>
-<p>
-<a href='https://github.com/morrowwm/weewxMQTT'>https://github.com/morrowwm/weewxMQTT</a>
-</p>
 
 <h2>Installation</h2>
 <p>
 Install paho MQTT client using
     sudo pip install paho-mqtt
 </p>
-<h2>Documentation and Support</h2>
 
-<p>
-The github project's <a href='https://github.com/morrowwm/weewxMQTT/wiki'>wiki</a>.
+Place the wxMesh.py into your `bin/user` folder
 
-<p>
-  Community support for weewx can be found at:
-<p style='padding-left: 50px;'>
-  <a href="https://groups.google.com/group/weewx-user">https://groups.google.com/group/weewx-user</a>
-</p>
+Update weewx.conf with the sample below. Remove the TLS option if you don't require it. 
 
-<h2>Licensing</h2>
+```
+[Station]
+    station_type = wxMesh
 
-<p>weewxMQTT is licensed under the GNU Public License v3.</p>
+[wxMesh]
+    # pip install paho-mqtt if you don’t have it installed already
+    host = your.mqtt.broker
+    port = 1883
+    topic = weather/weewx/loop (or whatever topic weewx-mqtt is publishing to)
+    driver = user.wxMesh
+    [[tls]]
+        tls_version = tlsv1
+        ca_certs = /etc/ssl/certs/ca-certificates.crt
+```
+
+<p>weewxMQTT (and wxMesh) is licensed under the GNU Public License v3.</p>
