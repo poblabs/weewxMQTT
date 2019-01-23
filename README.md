@@ -1,6 +1,8 @@
 <h1>
-  wxMesh Driver
+  wxMesh Driver for subscription of weewx-mqtt published messages
 </h1>
+
+Forked from [morrowwm/weewxMQTT](https://github.com/morrowwm/weewxMQTT)
 
 <h2>Description</h2>
 <p>An extension of weewx to add a driver which gets data via an MQTT subscription. Also will shortly add the software from the other side of the MQTT broker. Main part of that is an RF24Mesh process.
